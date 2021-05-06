@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\BackOfficeController;
+use App\Http\Controllers\CombinationController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TshirtController;
+use App\Http\Controllers\UIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +18,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('choice');
-});
+Route::get('/', [CombinationController::class, 'index'])->name('index');
+Route::post('/generate', [CombinationController::class, 'generate'])->name('combination.generate');
 
 Route::get('/backoffice', [BackOfficeController::class, 'index'])->name('backoffice.index');
-Route::post('/backoffice', [BackOfficeController::class, 'upload']);
 
-Route::get('/tshirt', [TshirtController::class, 'get']);
+Route::prefix('tshirt')->group(function () {
+    Route::post('/new', [TshirtController::class, 'new'])->name('tshirt.new');
+    Route::delete('/remove/{id}', [TshirtController::class, 'remove'])->name('tshirt.remove');
+});
+
+Route::prefix('image')->group(function () {
+    Route::post('/new', [ImageController::class, 'new'])->name('image.new');
+    Route::delete('/remove/{id}', [ImageController::class, 'remove'])->name('image.remove');
+});

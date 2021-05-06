@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUrl($value)
  * @mixin \Eloquent
+ * @property string $path
+ * @method static \Illuminate\Database\Eloquent\Builder|Image wherePath($value)
  */
 class Image extends Model
 {

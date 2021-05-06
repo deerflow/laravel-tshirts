@@ -3,3 +3,11 @@
 body {
     font-family: 'Inter', sans-serif;
 }
+
+.invisible-radio {
+    display: none;
+}
+
+.invisible-radio:checked + .card-radio {
+    border: #0c6efd 2px solid;
+}

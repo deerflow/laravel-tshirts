@@ -3,18 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-    public function new(?string $name, UploadedFile $file)
+    public function new(Request $request): RedirectResponse
     {
-        $path = $file->store('public/images');
-        $url = str_replace('public', '/storage', $path);
+        $imageFile = $request->file('image-file');
 
-        $image = new Image();
-        $image->name = $name || '';
-        $image->url = $url;
-        $image->save();
+        if ($imageFile) {
+            $path = $imageFile->store('public/images');
+            $url = str_replace('public', '/storage', $path);
+
+            $image = new Image();
+            $image->name = $request->input('image-name');
+            $image->path = $path;
+            $image->url = $url;
+            $image->save();
+        }
+
+        return redirect()->route('backoffice.index');
+    }
+
+    public function remove(int $id): RedirectResponse
+    {
+        $image = Image::findOrFail($id);
+        Storage::delete($image->path);
+        $image->delete();
+        return redirect()->route('backoffice.index');
     }
 }

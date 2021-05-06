@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Tshirt whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tshirt whereUrl($value)
  * @mixin \Eloquent
+ * @property string $path
+ * @method static \Illuminate\Database\Eloquent\Builder|Tshirt wherePath($value)
  */
 class Tshirt extends Model
 {
