@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\Tshirt;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use InterventionImage;
 
@@ -17,18 +16,33 @@ class CombinationController extends Controller
         return view('index', ['tshirts' => $tshirts, 'images' => $images]);
     }
 
-    public function generate(Request $request): RedirectResponse
+    public function result(Request $request)
     {
         $tshirtId = $request->input('tshirt');
         $imageId = $request->input('image');
 
-        $tshirt = Tshirt::findOrFail($tshirtId);
-        $image = Image::findOrFail($imageId);
+        $tshirtModel = Tshirt::findOrFail($tshirtId);
+        $imageModel = Image::findOrFail($imageId);
 
-        $combination = InterventionImage::make(storage_path() . '/app/' . $tshirt->path);
-        $combination->insert(storage_path() . '/app/' . $image->path);
-        $combination->save(storage_path() . '/app/public/combination.png');
+        $tshirt = InterventionImage::make($tshirtModel->absolute_path);
+        $image = InterventionImage::make($imageModel->absolute_path);
 
-        return redirect()->route('index');
+        if ($tshirt->width() > $tshirt->height()) {
+            $image->resize(null, $tshirt->height() / 3, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        } else {
+            $image->resize($tshirt->width() / 3, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        }
+
+        $tshirt->insert($image, 'center');
+
+        //dd($tshirt);
+
+        //$tshirt->save(storage_path() . '/app/public/combination.png');
+
+        return $tshirt->response('png');
     }
 }

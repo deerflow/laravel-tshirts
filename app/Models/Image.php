@@ -24,6 +24,10 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property string $path
  * @method static \Illuminate\Database\Eloquent\Builder|Image wherePath($value)
+ * @property string $relative_path
+ * @property string $absolute_path
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereAbsolutePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereRelativePath($value)
  */
 class Image extends Model
 {

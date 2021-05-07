@@ -19,7 +19,8 @@ class ImageController extends Controller
 
             $image = new Image();
             $image->name = $request->input('image-name');
-            $image->path = $path;
+            $image->relative_path = $path;
+            $image->absolute_path = storage_path() . '/app/' . $path;
             $image->url = $url;
             $image->save();
         }

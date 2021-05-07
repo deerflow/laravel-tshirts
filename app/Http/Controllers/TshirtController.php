@@ -19,7 +19,8 @@ class TshirtController extends Controller
 
             $tshirt = new Tshirt();
             $tshirt->name = $request->input('tshirt-name');
-            $tshirt->path = $path;
+            $tshirt->relative_path = $path;
+            $tshirt->absolute_path = storage_path() . '/app/' . $path;
             $tshirt->url = $url;
             $tshirt->save();
         }

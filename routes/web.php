@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [CombinationController::class, 'index'])->name('index');
-Route::post('/generate', [CombinationController::class, 'generate'])->name('combination.generate');
+Route::post('/result', [CombinationController::class, 'result'])->name('combination.result');
 
 Route::get('/backoffice', [BackOfficeController::class, 'index'])->name('backoffice.index');
 

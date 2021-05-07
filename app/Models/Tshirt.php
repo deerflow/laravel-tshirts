@@ -24,6 +24,10 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property string $path
  * @method static \Illuminate\Database\Eloquent\Builder|Tshirt wherePath($value)
+ * @property string $relative_path
+ * @property string $absolute_path
+ * @method static \Illuminate\Database\Eloquent\Builder|Tshirt whereAbsolutePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tshirt whereRelativePath($value)
  */
 class Tshirt extends Model
 {
