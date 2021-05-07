@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Historic
@@ -18,8 +19,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Historic whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Historic whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entry[] $entries
+ * @property-read int|null $entries_count
  */
 class Historic extends Model
 {
     use HasFactory;
+
+    public function entries(): HasMany
+    {
+        return $this->hasMany(Entry::class);
+    }
 }
