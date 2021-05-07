@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Historic;
 use App\Models\Image;
 use App\Models\Tshirt;
+use App\Services\UploadFile;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 
 class HistoricController extends Controller
 {
@@ -24,6 +27,10 @@ class HistoricController extends Controller
     {
         $tshirtId = $request->input('tshirt');
         $imageId = $request->input('image');
+
+        if ($imageId === 'user-image') {
+            $imageId = UploadFile::upload(null, $request->file('user-image'), Image::class);
+        }
 
         $historic = new Historic();
         $historic->save();
@@ -75,5 +82,13 @@ class HistoricController extends Controller
             'entry' => $newEntry,
             'historicId' => $historic->id,
         ]);
+    }
+
+    public function generatePDF(Request $request): Response
+    {
+        $entries = Historic::findOrFail($request->input('historic_id'))->entries;
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('historic.pdf', ['entries' => $entries]);
+        return $pdf->download('Historic.pdf');
     }
 }

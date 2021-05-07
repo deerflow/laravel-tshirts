@@ -10,7 +10,7 @@ use InterventionImage;
 
 class EntryController extends Controller
 {
-    const DWARFED_IMAGE_FACTOR = 3;
+    const MINIMIZE_IMAGE_FACTOR = 3;
 
     public function all()
     {
@@ -23,8 +23,8 @@ class EntryController extends Controller
         $tshirtModel = Tshirt::findOrFail($tshirtId);
         $tshirtImage = InterventionImage::make($tshirtModel->absolute_path);
 
-        $offsetX = $tshirtImage->width() / 2 - $tshirtImage->width() / self::DWARFED_IMAGE_FACTOR / 2;
-        $offsetY = $tshirtImage->height() / 2 - $tshirtImage->height() / self::DWARFED_IMAGE_FACTOR / 2;
+        $offsetX = $tshirtImage->width() / 2 - $tshirtImage->width() / self::MINIMIZE_IMAGE_FACTOR / 2;
+        $offsetY = $tshirtImage->height() / 2 - $tshirtImage->height() / self::MINIMIZE_IMAGE_FACTOR / 2;
 
         return self::new($historicId, $tshirtId, $imageId, $offsetX, $offsetY, 1);
     }
@@ -37,8 +37,8 @@ class EntryController extends Controller
         $tshirt = InterventionImage::make($tshirtModel->absolute_path);
         $image = InterventionImage::make($imageModel->absolute_path);
 
-        $width = $tshirt->width() / self::DWARFED_IMAGE_FACTOR * $zoom;
-        $height = $tshirt->height() / self::DWARFED_IMAGE_FACTOR * $zoom;
+        $width = $tshirt->width() / self::MINIMIZE_IMAGE_FACTOR * $zoom;
+        $height = $tshirt->height() / self::MINIMIZE_IMAGE_FACTOR * $zoom;
 
         if ($tshirt->width() > $tshirt->height()) {
             $width = null;

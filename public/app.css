@@ -16,3 +16,9 @@ body {
     width: 3rem;
     height: 3rem;
 }
+
+.button-outlined {
+    background: none;
+    border: none;
+    outline: none;
+}

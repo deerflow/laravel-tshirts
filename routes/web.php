@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HistoricController::class, 'index'])->name('index');
 Route::post('/adjust', [HistoricController::class, 'new'])->name('historic.new');
 Route::patch('/adjust', [HistoricController::class, 'adjust'])->name('historic.adjust');
+Route::post('/get-pdf', [HistoricController::class, 'generatePDF'])->name('historic.pdf');
 
 Route::get('/backoffice', [BackOfficeController::class, 'index'])->name('backoffice.index');
 

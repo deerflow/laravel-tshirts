@@ -33,6 +33,8 @@ class UploadFile
         $instance->absolute_path = storage_path() . '/app/' . $path;
         $instance->url = $url;
         $instance->save();
+
+        return $instance->id;
     }
 
     public static function remove(int $id, string $model)
