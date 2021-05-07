@@ -25,10 +25,12 @@ Route::get('/backoffice', [BackOfficeController::class, 'index'])->name('backoff
 
 Route::prefix('tshirt')->group(function () {
     Route::post('/new', [TshirtController::class, 'new'])->name('tshirt.new');
+    Route::match(['GET', 'PUT'], '/edit/{id}', [TshirtController::class, 'edit'])->name('tshirt.edit');
     Route::delete('/remove/{id}', [TshirtController::class, 'remove'])->name('tshirt.remove');
 });
 
 Route::prefix('image')->group(function () {
     Route::post('/new', [ImageController::class, 'new'])->name('image.new');
+    Route::match(['GET', 'PUT'], '/edit/{id}', [ImageController::class, 'edit'])->name('image.edit');
     Route::delete('/remove/{id}', [ImageController::class, 'remove'])->name('image.remove');
 });

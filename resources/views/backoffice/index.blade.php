@@ -13,11 +13,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $tshirt->name }}</h5>
                         <div class="d-flex">
-                            <form method="POST" class="me-1">
-                                @csrf
-                                @method('PUT')
-                                <button class="btn btn-primary">Modifier</button>
-                            </form>
+                            <a href="#" class="me-1 btn btn-primary">Modifier</a>
                             <form method="POST" action="{{ route('tshirt.remove', ['id' => $tshirt->id]) }}">
                                 @csrf
                                 @method('DELETE')
@@ -55,11 +51,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $image->name }}</h5>
                         <div class="d-flex">
-                            <form method="POST" class="me-1">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-primary">Modifier</button>
-                            </form>
+                            <a href="#" class="me-1 btn btn-primary">Modifier</a>
                             <form method="POST" action="{{ route('image.remove', ['id' => $image->id]) }}">
                                 @csrf
                                 @method('DELETE')

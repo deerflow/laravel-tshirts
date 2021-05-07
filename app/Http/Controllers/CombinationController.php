@@ -27,21 +27,20 @@ class CombinationController extends Controller
         $tshirt = InterventionImage::make($tshirtModel->absolute_path);
         $image = InterventionImage::make($imageModel->absolute_path);
 
+        $width = $tshirt->width() / 3;
+        $height = $tshirt->height() / 3;
+
         if ($tshirt->width() > $tshirt->height()) {
-            $image->resize(null, $tshirt->height() / 3, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+            $width = null;
         } else {
-            $image->resize($tshirt->width() / 3, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+            $height = null;
         }
 
+        $image->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
         $tshirt->insert($image, 'center');
-
-        //dd($tshirt);
-
-        //$tshirt->save(storage_path() . '/app/public/combination.png');
 
         return $tshirt->response('png');
     }

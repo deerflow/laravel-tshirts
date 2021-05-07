@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Services\UploadFile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -14,15 +14,7 @@ class ImageController extends Controller
         $imageFile = $request->file('image-file');
 
         if ($imageFile) {
-            $path = $imageFile->store('public/images');
-            $url = str_replace('public', '/storage', $path);
-
-            $image = new Image();
-            $image->name = $request->input('image-name');
-            $image->relative_path = $path;
-            $image->absolute_path = storage_path() . '/app/' . $path;
-            $image->url = $url;
-            $image->save();
+            UploadFile::upload($request->input('tshirt-name'), $imageFile, Image::class);
         }
 
         return redirect()->route('backoffice.index');
@@ -30,9 +22,7 @@ class ImageController extends Controller
 
     public function remove(int $id): RedirectResponse
     {
-        $image = Image::findOrFail($id);
-        Storage::delete($image->path);
-        $image->delete();
+        UploadFile::remove($id, Image::class);
         return redirect()->route('backoffice.index');
     }
 }

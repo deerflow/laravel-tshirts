@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tshirt;
+use App\Services\UploadFile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Storage;
 
 class TshirtController extends Controller
 {
@@ -14,15 +14,7 @@ class TshirtController extends Controller
         $tshirtFile = $request->file('tshirt-file');
 
         if ($tshirtFile) {
-            $path = $tshirtFile->store('public/tshirts');
-            $url = str_replace('public', '/storage', $path);
-
-            $tshirt = new Tshirt();
-            $tshirt->name = $request->input('tshirt-name');
-            $tshirt->relative_path = $path;
-            $tshirt->absolute_path = storage_path() . '/app/' . $path;
-            $tshirt->url = $url;
-            $tshirt->save();
+            UploadFile::upload($request->input('tshirt-name'), $tshirtFile, Tshirt::class);
         }
 
         return redirect()->route('backoffice.index');
@@ -30,9 +22,7 @@ class TshirtController extends Controller
 
     public function remove(int $id): RedirectResponse
     {
-        $tshirt = Tshirt::findOrFail($id);
-        Storage::delete($tshirt->path);
-        $tshirt->delete();
+        UploadFile::remove($id, Tshirt::class);
         return redirect()->route('backoffice.index');
     }
 }
