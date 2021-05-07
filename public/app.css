@@ -11,3 +11,8 @@ body {
 .invisible-radio:checked + .card-radio {
     border: #0c6efd 2px solid;
 }
+
+.icon-lg {
+    width: 3rem;
+    height: 3rem;
+}

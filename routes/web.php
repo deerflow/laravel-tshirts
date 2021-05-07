@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BackOfficeController;
 use App\Http\Controllers\CombinationController;
+use App\Http\Controllers\EntryController;
+use App\Http\Controllers\HistoricController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TshirtController;
 use App\Http\Controllers\UIController;
@@ -18,8 +20,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [CombinationController::class, 'index'])->name('index');
-Route::post('/result', [CombinationController::class, 'result'])->name('combination.result');
+Route::get('/', [HistoricController::class, 'index'])->name('index');
+Route::post('/adjust', [HistoricController::class, 'new'])->name('historic.new');
+Route::patch('/adjust', [HistoricController::class, 'adjust'])->name('historic.adjust');
 
 Route::get('/backoffice', [BackOfficeController::class, 'index'])->name('backoffice.index');
 
@@ -34,3 +37,5 @@ Route::prefix('image')->group(function () {
     Route::match(['GET', 'PUT'], '/edit/{id}', [ImageController::class, 'edit'])->name('image.edit');
     Route::delete('/remove/{id}', [ImageController::class, 'remove'])->name('image.remove');
 });
+
+Route::get('/entry/all', [EntryController::class, 'all'])->name('entry.all');

@@ -3,7 +3,7 @@
 @section('title', 'Build your t-shirt')
 
 @section('body')
-    <form method="POST" action="{{ route('combination.result') }}">
+    <form method="POST" action="{{ route('historic.new') }}">
         @csrf
         <h2>Choose a T-shirt</h2>
         <div class="row">
