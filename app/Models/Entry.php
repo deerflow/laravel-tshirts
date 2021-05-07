@@ -32,6 +32,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereZoom($value)
  * @mixin \Eloquent
+ * @property int $tshirt_id
+ * @property int $image_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Entry whereImageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Entry whereTshirtId($value)
  */
 class Entry extends Model
 {

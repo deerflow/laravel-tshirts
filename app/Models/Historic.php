@@ -30,4 +30,9 @@ class Historic extends Model
     {
         return $this->hasMany(Entry::class);
     }
+
+    public function lastEntry(): Entry
+    {
+        return Entry::whereHistoricId($this->id)->orderByDesc('created_at')->firstOrFail();
+    }
 }

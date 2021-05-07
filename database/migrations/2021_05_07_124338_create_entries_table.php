@@ -16,6 +16,8 @@ class CreateEntriesTable extends Migration
         Schema::create('entries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('historic_id');
+            $table->foreignId('tshirt_id');
+            $table->foreignId('image_id');
             $table->string('url', 255);
             $table->string('relative_path', 255);
             $table->string('absolute_path', 255);
