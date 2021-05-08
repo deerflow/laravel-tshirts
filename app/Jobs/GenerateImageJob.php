@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\ImageGenerated;
+use App\Events\ImageGenerated;
 use App\Models\Image;
 use App\Models\Tshirt;
 use Illuminate\Bus\Queueable;
@@ -10,11 +10,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use InterventionImage;
 
-class GenerateImageAndSendMail implements ShouldQueue
+class GenerateImageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -85,6 +84,6 @@ class GenerateImageAndSendMail implements ShouldQueue
         $path = storage_path() . '/app/public/entries-api/' . Str::uuid() . '.png';
         $tshirt->save($path);
 
-        Mail::to('florian.alu@le-campus-numerique.fr')->send(new ImageGenerated($path));
+        ImageGenerated::dispatch($this->email, $path);
     }
 }

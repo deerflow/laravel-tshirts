@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\GenerateImageAndSendMail;
+use App\Jobs\GenerateImageJob;
 use App\Models\Entry;
 use App\Models\Image;
 use App\Models\Tshirt;
@@ -91,7 +91,7 @@ class EntryController extends Controller
 
         if ($validator->passes()) {
             dispatch(
-                new GenerateImageAndSendMail(
+                new GenerateImageJob(
                     $request->json('email'),
                     $request->json('tshirtId'),
                     $request->json('imageId'),
