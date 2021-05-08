@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\ImageGenerated;
+use App\Events\ImageGeneratedEvent;
 use App\Listeners\SendEmailWithImage;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        ImageGenerated::class => [
+        ImageGeneratedEvent::class => [
             SendEmailWithImage::class
         ]
     ];

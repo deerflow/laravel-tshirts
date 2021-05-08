@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Events\ImageGenerated;
+use App\Events\ImageGeneratedEvent;
 use App\Models\Image;
 use App\Models\Tshirt;
 use Illuminate\Bus\Queueable;
@@ -54,20 +54,20 @@ class GenerateImageJob implements ShouldQueue
         $tshirt = InterventionImage::make($tshirtModel->absolute_path);
         $image = InterventionImage::make($imageModel->absolute_path);
 
-        if (!$this->offsetX) {
-            $this->offsetX = (int)round($tshirt->width() / 2 - $tshirt->width() / self::MINIMIZE_IMAGE_FACTOR / 2, 0);
-        }
-
-        if (!$this->offsetY) {
-            $this->offsetY = (int)round($tshirt->height() / 2 - $tshirt->height() / self::MINIMIZE_IMAGE_FACTOR / 2, 0);
-        }
-
         if (!$this->zoom) {
             $this->zoom = 1;
         }
 
-        $width = $tshirt->width() / self::MINIMIZE_IMAGE_FACTOR * $this->zoom;
-        $height = $tshirt->height() / self::MINIMIZE_IMAGE_FACTOR * $this->zoom;
+        if (!$this->offsetX) {
+            $this->offsetX = (int)round($tshirt->width() / 2 - $tshirt->width() / self::MINIMIZE_IMAGE_FACTOR / 2 * $this->zoom);
+        }
+
+        if (!$this->offsetY) {
+            $this->offsetY = (int)round($tshirt->height() / 2 - $tshirt->height() / self::MINIMIZE_IMAGE_FACTOR / 2 * $this->zoom);
+        }
+
+        $width = (int)round($tshirt->width() / self::MINIMIZE_IMAGE_FACTOR * $this->zoom);
+        $height = (int)round($tshirt->height() / self::MINIMIZE_IMAGE_FACTOR * $this->zoom);
 
         if ($tshirt->width() > $tshirt->height()) {
             $width = null;
@@ -84,6 +84,6 @@ class GenerateImageJob implements ShouldQueue
         $path = storage_path() . '/app/public/entries-api/' . Str::uuid() . '.png';
         $tshirt->save($path);
 
-        ImageGenerated::dispatch($this->email, $path);
+        ImageGeneratedEvent::dispatch($this->email, $path);
     }
 }

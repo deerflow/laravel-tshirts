@@ -41,8 +41,8 @@ class EntryController extends Controller
         $tshirt = InterventionImage::make($tshirtModel->absolute_path);
         $image = InterventionImage::make($imageModel->absolute_path);
 
-        $width = $tshirt->width() / self::MINIMIZE_IMAGE_FACTOR * $zoom;
-        $height = $tshirt->height() / self::MINIMIZE_IMAGE_FACTOR * $zoom;
+        $width = (int)round($tshirt->width() / self::MINIMIZE_IMAGE_FACTOR * $zoom);
+        $height = (int)round($tshirt->height() / self::MINIMIZE_IMAGE_FACTOR * $zoom);
 
         if ($tshirt->width() > $tshirt->height()) {
             $width = null;

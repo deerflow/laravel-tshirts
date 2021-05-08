@@ -7,7 +7,7 @@ use App\Http\Controllers\HistoricController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TshirtController;
 use App\Http\Controllers\UIController;
-use App\Mail\ImageGenerated;
+use App\Mail\ImageGeneratedMail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/mail', function () {
-    Mail::to('alu.florian@gmail.com')->send(new ImageGenerated());
+    Mail::to('alu.florian@gmail.com')->send(new ImageGeneratedMail());
     return 'Sent';
 });
 

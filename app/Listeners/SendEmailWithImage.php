@@ -2,7 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\ImageGenerated;
+use App\Events\ImageGeneratedEvent;
+use App\Mail\ImageGeneratedMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,11 +22,11 @@ class SendEmailWithImage implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param ImageGenerated $event
+     * @param ImageGeneratedEvent $event
      * @return void
      */
-    public function handle(ImageGenerated $event)
+    public function handle(ImageGeneratedEvent $event)
     {
-        Mail::to($event->getEmail())->send(new \App\Mail\ImageGenerated($event->getPath()));
+        Mail::to($event->getEmail())->send(new ImageGeneratedMail($event->getPath()));
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ImageGenerated extends Mailable
+class ImageGeneratedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,7 +27,7 @@ class ImageGenerated extends Mailable
      *
      * @return $this
      */
-    public function build(): ImageGenerated
+    public function build(): ImageGeneratedMail
     {
         return $this->from('test@shirtify.com')
             ->view('mails.image-generated', ['imagePath' => $this->imagePath]);
