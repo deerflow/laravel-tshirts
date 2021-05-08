@@ -7,6 +7,7 @@ use App\Http\Controllers\HistoricController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TshirtController;
 use App\Http\Controllers\UIController;
+use App\Mail\ImageGenerated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/mail', function () {
+    Mail::to('alu.florian@gmail.com')->send(new ImageGenerated());
+    return 'Sent';
+});
 
 Route::get('/', [HistoricController::class, 'index'])->name('index');
 Route::post('/adjust', [HistoricController::class, 'new'])->name('historic.new');

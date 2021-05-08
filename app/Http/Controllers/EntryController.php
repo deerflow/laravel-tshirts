@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateImageAndSendMail;
 use App\Models\Entry;
 use App\Models\Image;
 use App\Models\Tshirt;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use InterventionImage;
+use Validator;
 
 class EntryController extends Controller
 {
@@ -72,5 +76,31 @@ class EntryController extends Controller
         $entry->save();
 
         return $entry;
+    }
+
+    public function newFromApi(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->json()->all(), [
+            'tshirtId' => ['integer', 'min:1', 'required'],
+            'imageId' => ['integer', 'min:1', 'required'],
+            'email' => ['email', 'required'],
+            'offsetX' => 'integer',
+            'offsetY' => 'integer',
+            'zoom' => 'numeric'
+        ]);
+
+        if ($validator->passes()) {
+            dispatch(
+                new GenerateImageAndSendMail(
+                    $request->json('email'),
+                    $request->json('tshirtId'),
+                    $request->json('imageId'),
+                    $request->json('offsetX'),
+                    $request->json('offsetY'),
+                    $request->json('zoom')
+                ));
+            return response()->json(['message' => 'Generating your image, an email will be sent to you when it\'s done'], 201);
+        }
+        return response()->json($validator->errors()->messages(), 401);
     }
 }
