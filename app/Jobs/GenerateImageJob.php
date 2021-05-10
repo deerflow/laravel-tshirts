@@ -37,7 +37,7 @@ class GenerateImageJob implements ShouldQueue
         $this->tshirtId = $tshirtId;
         $this->imageId = $imageId;
         $this->offsetX = $offsetX;
-        $this->$offsetY = $offsetY;
+        $this->offsetY = $offsetY;
         $this->zoom = $zoom;
     }
 

@@ -4,28 +4,15 @@
 namespace App\Services;
 
 
-use App\Models\Image;
-use App\Models\Tshirt;
-use Error;
+use App\Models\isUploadable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class UploadFile
 {
-    public static function upload(?string $name, UploadedFile $file, string $model)
+    public static function upload(?string $name, UploadedFile $file, isUploadable $instance)
     {
-        $instance = null;
-        $storagePath = '';
-
-        if ($model == Tshirt::class) {
-            $instance = new Tshirt();
-            $storagePath = 'public/tshirts';
-        } else if ($model == Image::class) {
-            $instance = new Image();
-            $storagePath = 'public/images';
-        } else throw new Error('Invalid model');
-
-        $path = $file->store($storagePath);
+        $path = $file->store($instance->getUploadPath());
         $url = str_replace('public', '/storage', $path);
 
         $instance->name = $name;
@@ -37,15 +24,8 @@ class UploadFile
         return $instance->id;
     }
 
-    public static function remove(int $id, string $model)
+    public static function remove(isUploadable $instance)
     {
-        $instance = null;
-        if ($model == Tshirt::class) {
-            $instance = Tshirt::findOrFail($id);
-        } else if ($model == Image::class) {
-            $instance = Image::findOrFail($id);
-        } else throw new Error('Invalid model');
-
         Storage::delete($instance->path);
         $instance->delete();
     }

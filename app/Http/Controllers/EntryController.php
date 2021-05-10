@@ -24,6 +24,8 @@ class EntryController extends Controller
 
     public static function newAndCalculateOffset(int $historicId, int $tshirtId, int $imageId): Entry
     {
+        // TODO: Service de resize
+
         $tshirtModel = Tshirt::findOrFail($tshirtId);
         $tshirtImage = InterventionImage::make($tshirtModel->absolute_path);
 

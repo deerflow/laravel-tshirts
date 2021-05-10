@@ -46,7 +46,7 @@ class HistoricController extends Controller
     public function adjust(Request $request)
     {
         $historic = Historic::findOrFail($request->input('historic_id'));
-        $lastEntry = $historic->lastEntry();
+        $lastEntry = $historic->lastEntry()->firstOrFail();
         $adjust = $request->input('adjust');
 
         $offsetX = $lastEntry->offset_x;

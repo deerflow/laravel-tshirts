@@ -29,7 +29,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereAbsolutePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereRelativePath($value)
  */
-class Image extends Model
+class Image extends Model implements isUploadable
 {
+    public function getUploadPath(): string
+    {
+        return 'public/images';
+    }
+
     use HasFactory;
 }

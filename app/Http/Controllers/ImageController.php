@@ -14,7 +14,7 @@ class ImageController extends Controller
         $imageFile = $request->file('image-file');
 
         if ($imageFile) {
-            UploadFile::upload($request->input('tshirt-name'), $imageFile, Image::class);
+            UploadFile::upload($request->input('tshirt-name'), $imageFile, new Image());
         }
 
         return redirect()->route('backoffice.index');
@@ -22,7 +22,8 @@ class ImageController extends Controller
 
     public function remove(int $id): RedirectResponse
     {
-        UploadFile::remove($id, Image::class);
+        $image = Image::findOrFail($id);
+        UploadFile::remove($image);
         return redirect()->route('backoffice.index');
     }
 }

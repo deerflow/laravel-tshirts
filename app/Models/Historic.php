@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -31,8 +32,8 @@ class Historic extends Model
         return $this->hasMany(Entry::class);
     }
 
-    public function lastEntry(): Entry
+    public function lastEntry(): Builder
     {
-        return Entry::whereHistoricId($this->id)->orderByDesc('created_at')->firstOrFail();
+        return Entry::whereHistoricId($this->id)->orderByDesc('created_at');
     }
 }

@@ -29,7 +29,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Tshirt whereAbsolutePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tshirt whereRelativePath($value)
  */
-class Tshirt extends Model
+class Tshirt extends Model implements isUploadable
 {
+    public function getUploadPath(): string
+    {
+        return 'public/tshirts';
+    }
+
     use HasFactory;
 }
